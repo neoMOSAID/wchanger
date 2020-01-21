@@ -13,19 +13,19 @@ the usual :awk,sed,grep,curl,wget...
 
 1 - run install.sh
 
-    $./install.sh
+    $ ./install.sh
 
 2- to make a systemd service:
 
-    sudo cp wchanger.service /usr/lib/systemd/user/wchanger.service
+    $ sudo cp wchanger.service /usr/lib/systemd/user/wchanger.service
 
 3- to enable wchanger service:
 
-    systemctl --user enable wchanger
+    $ systemctl --user enable wchanger
 
 4- to start wchanger service:
 
-    systemctl --user start wchanger
+    $ systemctl --user start wchanger
 
 # help
 
