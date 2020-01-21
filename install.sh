@@ -39,6 +39,8 @@ IFS= read -rN 1 -p " : " ans
 done
 echo
 python "$DESTDIR/wchangerDB.py" addpass wchanger "$pass"
+python "$DESTDIR/wchangerDB.py" wh_set expired 0
+
 echo "downloading one wallpaper by id"
 bash "$DESTDIR/wchanger.sh" d r25kqj >/dev/null 2>&1
 echo "downloading one random wallpaper"
