@@ -4,24 +4,26 @@ Wallpaper changer for i3
 
 # dependencies
 
-feh : image viewer and backgrounder
-dunst: notification manager
-python
+feh : image viewer and backgrounder<br>
+dunst: notification manager<br>
+python<br>
 the usual :awk,sed,grep,curl,wget...
 
 # install
 
-run install.sh
+1 - run install.sh
 
-to make a systemd service:
+    $./install.sh
+
+2- to make a systemd service:
 
     sudo cp wchanger.service /usr/lib/systemd/user/wchanger.service
 
-to enable wchanger service:
+3- to enable wchanger service:
 
     systemctl --user enable wchanger
 
-to start wchanger service:
+4- to start wchanger service:
 
     systemctl --user start wchanger
 
@@ -32,11 +34,11 @@ each workspace can have up to 9 states,
 with two modes ( default and password protected mode)
 features include (for each workspace ):
 
--   a single wallpaper
--   a directory of wallpapers
--   a list of favorites wallpapers
--   wallpaper changing paused/unpaused
--   list montage - ...
+-   a single wallpaper<br>
+-   a directory of wallpapers<br>
+-   a list of favorites wallpapers<br>
+-   wallpaper changing paused/unpaused<br>
+-   list montage - ...<br>
 
           af|addfav              	add CW to favs
           al|addlist [name] [c]  	add list
