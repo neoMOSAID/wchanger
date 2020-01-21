@@ -1,5 +1,18 @@
 #!/bin/bash
 
+if ! command -v feh >/dev/null 2>&1 ; then
+    echo feh not installed. please install it
+    exit
+fi
+if ! command -v jq >/dev/null 2>&1 ; then
+    echo jq not installed. please install it
+    exit
+fi
+if ! command -v dunst >/dev/null 2>&1 ; then
+    echo dunst not installed. please install it
+    exit
+fi
+
 DESTDIR="${HOME}/.config/wchanger"
 echo "making $DESTDIR"
 mkdir -p "$DESTDIR" 2>/dev/null
