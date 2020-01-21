@@ -13,6 +13,12 @@ if ! command -v dunst >/dev/null 2>&1 ; then
     exit
 fi
 
+pythonVersion=$(python -c 'import sys; print(sys.version_info.major)')
+if (( $pythonVersion < 3 )) ; then
+    echo please upgrade python to version 3 or above
+    exit
+fi
+
 DESTDIR="${HOME}/.config/wchanger"
 echo "making $DESTDIR"
 mkdir -p "$DESTDIR" 2>/dev/null
