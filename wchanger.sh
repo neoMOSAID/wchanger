@@ -472,7 +472,7 @@ function setPauseW(){
     id=$( _pic_ | sed -E 's@^.*wallhaven-(.*)\..*$@\1@g' )
     [[ -z "$id" ]] && id="$(_pic_)"
     if [[ -z "$notexpired" ]] ; then
-        >&2 echo "u not defind"
+        >&2 echo "please run 'wchanger u' first"
         exit
     fi
     if  (( $notexpired == 0 )) && (( $workspace > 0 && $workspace <= 7 ))
