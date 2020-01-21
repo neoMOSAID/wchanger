@@ -53,11 +53,19 @@ echo "downloading one random wallpaper"
 bash "$DESTDIR/wchanger.sh" dr >/dev/null 2>&1
 
 echo "creating alias"
-str="alias wchanger='"${HOME}"/.config/wchanger/wchanger.sh'"
-[[ -f "${HOME}/.bashrc" ]] && echo "$str" >> "${HOME}/.bashrc"
-[[ -f "${HOME}/.zshrc" ]] && echo "$str" >> "${HOME}/.zshrc"
+line="alias wchanger='"${HOME}"/.config/wchanger/wchanger.sh'"
+file="${HOME}/.bashrc"
+[[ -f "$file" ]] && {
+    lno=$(\grep -nF "$line" "$file" | sed 's/:.*//' | tr '\n' ' ')
+    [[ -z "$lno" ]] && echo "$line" >> "${HOME}/.bashrc"
+}
+file="${HOME}/.zshrc"
+[[ -f "$file" ]] && {
+    lno=$(\grep -nF "$line" "$file" | sed 's/:.*//' | tr '\n' ' ')
+    [[ -z "$lno" ]] && echo "$line" >> "${HOME}/.bashrc"
+}
 
-$str
+$line
 
 echo "======================================================"
 echo "you're done. Enjoy!"
