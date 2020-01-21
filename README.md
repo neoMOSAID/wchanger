@@ -2,6 +2,13 @@
 
 Wallpaper changer for i3
 
+# dependencies
+
+feh : image viewer and backgrounder
+dunst: notification manager
+python
+the usual :awk,sed,grep,curl,wget...
+
 # install
 
 run install.sh
@@ -25,11 +32,11 @@ each workspace can have up to 9 states,
 with two modes ( default and password protected mode)
 features include (for each workspace ):
 
-    - a single wallpaper
-    - a directory of wallpapers
-    - a list of favorites wallpapers
-    - wallpaper changing paused/unpaused
-    - list montage - ...
+-   a single wallpaper
+-   a directory of wallpapers
+-   a list of favorites wallpapers
+-   wallpaper changing paused/unpaused
+-   list montage - ...
 
           af|addfav              	add CW to favs
           al|addlist [name] [c]  	add list
