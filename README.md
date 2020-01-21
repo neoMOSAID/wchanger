@@ -6,7 +6,7 @@ Wallpaper changer for i3
 
 feh : image viewer and backgrounder<br>
 dunst: notification manager<br>
-python<br>
+python 3 or above <br>
 the usual :awk,sed,grep,curl,wget...
 
 # install
