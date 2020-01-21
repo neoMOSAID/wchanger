@@ -27,9 +27,9 @@ done
 echo
 python "$DESTDIR/wchangerDB.py" addpass wchanger "$pass"
 echo "downloading one wallpaper by id"
-bash wchanger.sh d r25kqj >/dev/null 2>&1
+bash "$DESTDIR/wchanger.sh" d r25kqj >/dev/null 2>&1
 echo "downloading one random wallpaper"
-bash wchanger.sh dr >/dev/null 2>&1
+bash "$DESTDIR/wchanger.sh" dr >/dev/null 2>&1
 
 echo "creating alias"
 str="alias wchanger='"${HOME}"/.config/wchanger/wchanger.sh'"
