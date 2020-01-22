@@ -720,8 +720,12 @@ function set_web_id (){
             ;;
          s|sm|ms)
             (( $notexpired == 0 )) && {
-                dunstify -u normal -r "$msgId" "wallpaper changer" "not permitted"
-                exit
+                (( $( pass_f) == 0 )) && {
+                    dunstify -u normal -r "$msgId" "wallpaper changer" "not permitted"
+                    echo
+                    exit
+                }
+                echo
             }
             c="$1"
             arg=
