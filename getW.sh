@@ -51,7 +51,6 @@ LOCATION+="/$arg_2"
 [[ ! -d "$LOCATION" ]] && mkdir -p "$LOCATION"
 cd "$LOCATION" || exit
 
-echo "downloading to $LOCATION"
 
 function gettags(){
     rm -f "${tmpfile}_$1" 2>/dev/null
@@ -103,7 +102,6 @@ function getFile_f(){
     if (( $downloaded == 1 ))
         then
             FILE="$(python "$wallhavenP" get "$imgID" )"
-            printf "# "
         else
             FILE=$(downloadit_f)
     fi

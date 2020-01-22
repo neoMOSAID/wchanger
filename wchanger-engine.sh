@@ -7,6 +7,12 @@ if (( $is_running > 1 )) ; then
   exit 0
 fi
 
+while [[ -z "$(pidof i3)" ]] ; do
+    sleep 1
+done
+sleep 1
+export DISPLAY=:0
+
 wallhavenP="${HOME}/.config/wchanger/wchangerDB.py"
 
 function getws () {
@@ -14,6 +20,8 @@ function getws () {
     [[ -z "$lastWS" ]] && lastWS=0
     currWS=$(i3-msg -t get_workspaces \
                 | jq -c '.[] |select(.focused)|.num' )
+    [[ -z "$currWS" ]] && currWS=1
+    [[ -z "$lastWS" ]] && lastWS=$currWS
     if (( $lastWS != $currWS )) ; then
         echo "$currWS" > /tmp/my_i3_ws
         python "$wallhavenP" wh_set "expired" "0"

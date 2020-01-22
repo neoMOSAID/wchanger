@@ -98,7 +98,7 @@ function getP(){
         feh --bg-max   "$pic" "$secondPIC"
     else
         echo "$(date '+%Y-%m-%d-%H:%M:%S'):$pic" >> "$errlog"
-        >&2 echo "error file : $pic"
+        >&2 echo "@getP: error file : $pic"
     fi
     exit
 }
@@ -598,7 +598,7 @@ function getOr(){
     else
         echo "$(date '+%Y-%m-%d-%H:%M:%S'):$pic" >> "$errlog"
         pic=$( echo "$pic" | sed -E 's@^.*wallhaven-(.*)\..*$@\1@g' )
-        >&2 echo "error file : $pic"
+        >&2 echo "@getOr: error file : $pic"
     fi
 }
 
@@ -704,7 +704,7 @@ function getFav(){
         else
             echo "$(date '+%Y-%m-%d-%H:%M:%S'):$pic" >> "$errlog"
             pic=$( echo "$pic" | sed -E 's@^.*wallhaven-(.*)\..*$@\1@g' )
-            >&2 echo "error file : $pic"
+            >&2 echo "@getFav: error file : $pic"
     fi
 }
 
@@ -881,7 +881,7 @@ function getwW(){
         else
             pic=$( echo "$pic" | sed -E 's@^.*wallhaven-(.*)\..*$@\1@g' )
             [[ -z "$pic" ]] && exit
-            >&2 echo "error file : $pic"
+            >&2 echo "@getwW: error file : $pic"
     fi
     exit
 }
@@ -1280,7 +1280,7 @@ function getDir(){
     else
         echo "$pic" >> "$errlog"
         pic=$( echo "$pic" | sed -E 's@^.*wallhaven-(.*)\..*$@\1@g' )
-        >&2 echo "error file : $pic"
+        >&2 echo "@getDir: error file : $pic"
     fi
     exit
 }
@@ -1358,7 +1358,7 @@ function getWT(){
         else
             echo "$(date '+%Y-%m-%d-%H:%M:%S'):$pic" >> "$errlog"
             pic=$( echo "$pic" | sed -E 's@^.*wallhaven-(.*)\..*$@\1@g' )
-            >&2 echo "error file : $pic"
+            >&2 echo "@getWT: error file : $pic"
     fi
     exit
 }
