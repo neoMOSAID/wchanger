@@ -1543,13 +1543,11 @@ function f_info(){
     while read -r l ; do
         desc="${l#*:}"
         m="${l%% *}"
-        [[ $modes == *"$m"* ]] && continue
         f="${m}_info"
         printf '\033[1;0m'
         [[ "${m}_0" == "$cmode" ]] && printf '\033[1;32m'
         [[ "${m}_0" == "$amode" ]] && printf '\033[1;35m'
         "$f" 0 0
-        #>&2 printf '\033[1;31mm:%s   cm:%s\033[1;0m:::%s\n' "${m}_1" "$amode" "$modes"
         printf '\033[1;0m'
         [[ "${m}_1" == "$cmode" ]] && printf '\033[1;32m'
         [[ "${m}_1" == "$amode" ]] && printf '\033[1;35m'
@@ -1577,6 +1575,7 @@ function all_info(){
         f_info
     done
 }
+
 function print_url(){
     sname="ws${workspace}_web_id_${notexpired}"
     squery=$(python "$wallhavenP" wh_get "$sname")
