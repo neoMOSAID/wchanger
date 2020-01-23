@@ -973,7 +973,7 @@ def getDir(mdir, category, index, n):
             """ select path from downloaded t1
         inner join categories t2
         on t1.name = t2.name {where} and ( t1.dir = "{mdir}" )
-        ORDER BY t1.id
+        ORDER BY t1.id desc
         LIMIT {index},{n}
         """.format(
                 where=where, mdir=mdir, index=index, n=n
