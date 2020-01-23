@@ -104,7 +104,7 @@ function getP(){
 }
 
 function setPauseValue(){
-    ! [[ -z "$1" ]] && [[ "$1" != "f" ]] && workspace=$1
+    [[ -n "$1" ]] && [[ "$1" != "f" ]] && workspace=$1
     pause=$(
         python "$wallhavenP" wh_get "ws${workspace}_pause_$notexpired"
     )
@@ -283,7 +283,7 @@ function favsList(){
     )
     ans=${ans#*: }
     ans=${ans%(*}
-    ! [[ -z "$ans" ]] && echo "${arr[$ans]}"
+    [[ -n "$ans" ]] && echo "${arr[$ans]}"
 }
 
 # $1 : name of the list
@@ -349,7 +349,7 @@ function addFav(){
     fi
     c=$(python "$wallhavenP" getcategorybyname "$pic" )
     [[ -z "$c" ]] && c='*'
-    ! [[ -z "$1" ]] && c="$1"
+    [[ -n "$1" ]] && c="$1"
     msg="add wallpaper to "
     fid=$( favsList "$c" "$msg" )
     if [[ -z "$fid" ]] ; then
@@ -468,7 +468,7 @@ function dirHandler(){
 
 # $1 can be workspace
 function setPauseW(){
-    ! [[ -z "$1" ]] && [[ "$1" != "f" ]] && workspace=$1
+    [[ -n "$1" ]] && [[ "$1" != "f" ]] && workspace=$1
     id=$( _pic_ | sed -E 's@^.*wallhaven-(.*)\..*$@\1@g' )
     [[ -z "$id" ]] && id="$(_pic_)"
     if [[ -z "$notexpired" ]] ; then
@@ -489,7 +489,7 @@ function setPauseW(){
 
 # $1 can be workspace
 function UnsetPauseW(){
-    ! [[ -z "$1" ]] && [[ "$1" != "f" ]] && workspace=$1
+    [[ -n "$1" ]] && [[ "$1" != "f" ]] && workspace=$1
     if [[ -z "$notexpired" ]] ; then
         >&2 echo "mode 1  not defind"
         exit
@@ -798,7 +798,7 @@ function set_ordered_l(){
 
 # $1 notexpired
 function get_ordered_c(){
-    ! [[ -z "$1" ]] && local notexpired=$1
+    [[ -n "$1" ]] && local notexpired=$1
     name="ws${workspace}_ordered_c_${notexpired}"
     c=$( python "$wallhavenP" wh_get "$name" )
     echo "$c"
@@ -982,7 +982,7 @@ function printOrd(){
     python "$wallhavenP" getordered "$c" 0 50000 > "$tmp_list"
     case "$1" in
         o)
-            ! [[ -z "$2" ]] && sed -i "1,$2"d "$tmp_list"
+            [[ -n "$2" ]] && sed -i "1,$2"d "$tmp_list"
             feh -f "$tmp_list" 2> /dev/null
             exit
             ;;
@@ -1131,7 +1131,7 @@ function freeze_mode(){
 }
 
 function wsSetMode(){
-    ! [[ -z "$1" ]] && workspace=$1
+    [[ -n "$1" ]] && workspace=$1
     if  (( $notexpired == 0 )) && (( $workspace > 0 && $workspace <=7 ))
     then
         if [[ "$(pass_f)" == "0" ]] ; then
@@ -1209,7 +1209,7 @@ function setDir(){
         | sort \
         |rofi -i -dmenu -p "$msg" -width -80
     )
-    if ! [[ -z "$ans" ]]
+    if [[ -n "$ans" ]]
         then dir="${arr[$ans]}"
         else
             echo "empty choice"
@@ -1391,8 +1391,8 @@ function getFav_info(){
     local info=""
     fid=$(python "$wallhavenP" wh_get "ws${workspace}_FID_$1" )
     str="$(python "$wallhavenP" getfavname "$fid" )"
-    ! [[ -z "$str" ]] && info="$str"
-    ! [[ -z "$info" ]] && (( $2 == 1 )) \
+    [[ -n "$str" ]] && info="$str"
+    [[ -n "$info" ]] && (( $2 == 1 )) \
         && info="***************"
     printf '%-13s: %s\n' "$1-getFav" "$info"
 }
@@ -1400,8 +1400,8 @@ function getFav_info(){
 function getLD_info(){
     local info=""
     dir=$(python "$wallhavenP" wh_get "ws${workspace}_dir_$1" )
-    ! [[ -z "$dir" ]] && info="$(basename "$dir")"
-    ! [[ -z "$info" ]] && (( $2 == 1 )) \
+    [[ -n "$dir" ]] && info="$(basename "$dir")"
+    [[ -n "$info" ]] && (( $2 == 1 )) \
         && info="***************"
     printf '%-13s: %s\n' "$1-getLD" "$info"
 }
@@ -1411,9 +1411,9 @@ function getwW_info(){
     tag=$(python "$wallhavenP" wh_get "ws${workspace}_web_id_$1")
     tagname=$( python "$wallhavenP" gettagname "$tag" )
     c=$(python "$wallhavenP" wh_get "ws${workspace}_web_c_$1")
-    ! [[ -z "$tagname" ]] && info="$tagname"
-    ! [[ -z "$c" ]] && info+=" (category $c)"
-    ! [[ -z "$info" ]] && (( $2 == 1 )) \
+    [[ -n "$tagname" ]] && info="$tagname"
+    [[ -n "$c" ]] && info+=" (category $c)"
+    [[ -n "$info" ]] && (( $2 == 1 )) \
         && info="***************"
     printf '%-13s: %s\n' "$1-getwW" "$info"
 }
@@ -1424,7 +1424,7 @@ function getwW_info(){
 function getWT_info(){
     info=$(
         while read -r s ; do
-            ! [[ -z "$s" ]] && printf '\t\t - %s\n' "$s"
+            [[ -n "$s" ]] && printf '\t\t - %s\n' "$s"
         done <<< "$(getwstags "$1" )"
     )
     name="ws${workspace}_tags_c_$1"
@@ -1464,10 +1464,10 @@ function getOr_info(){
     local info=""
     name="ws${workspace}_ordered_c_$1"
     category=$( python "$wallhavenP" wh_get "$name" )
-    ! [[ -z "$category" ]] && {
+    [[ -n "$category" ]] && {
         info="category $category"
     }
-    ! [[ -z "$info" ]] && (( $2 == 1 )) \
+    [[ -n "$info" ]] && (( $2 == 1 )) \
         && info="***************"
     printf '%-13s: %s\n' "$1-getOr" "$info"
 }
@@ -1481,8 +1481,8 @@ function getDir_info(){
         tagname=$( python "$wallhavenP" gettagname "$dir" )
         dir=$tagname
     fi
-    ! [[ -z "$dir" ]] && info="$dir (category $c)"
-    ! [[ -z "$info" ]] && (( $2 == 1 )) \
+    [[ -n "$dir" ]] && info="$dir (category $c)"
+    [[ -n "$info" ]] && (( $2 == 1 )) \
         && info="***************"
     printf '%-13s: %s\n' "$1-getDir" "$info"
 }
@@ -1560,15 +1560,15 @@ function f_info(){
 }
 
 function all_info(){
-    ! [[ -z "$1" ]] && {
+    (( $notexpired == 0 )) && [[ "$(pass_f)" == 0 ]] && {
+        exit
+        echo
+    }
+    [[ -n "$1" ]] && {
         workspace=$1
         echo "============ ws $1 =============="
         f_info
         return
-    }
-    (( $notexpired == 0 )) && [[ "$(pass_f)" == 0 ]] && {
-        exit
-        echo
     }
     echo -en "\e[1A"
     echo
@@ -1794,7 +1794,7 @@ function starTag(){
 }
 
 function iter_f(){
-    if ! [[ -z "$1" ]] ; then
+    if [[ -n "$1" ]] ; then
         echo "$1" >| "$iterFile"
     fi
     it=$(cat "$iterFile")
