@@ -1549,11 +1549,11 @@ function f_info(){
         f="${m}_info"
         printf '\033[1;0m'
         [[ "${m}_0" == "$cmode" ]] && printf '\033[1;32m'
-        [[ "${m}_0" == "$amode" ]] && printf '\033[1;35m'
+        [[ "${m}_0" == "$amode" ]] && printf '\033[1;34m'
         "$f" 0 0
-        printf '\033[1;0m'
+        printf '\033[1;31m'
         [[ "${m}_1" == "$cmode" ]] && printf '\033[1;32m'
-        [[ "${m}_1" == "$amode" ]] && printf '\033[1;35m'
+        [[ "${m}_1" == "$amode" ]] && printf '\033[1;33m'
         "$f" 1 $hide
     done <<< "$(modes_f)"
 }
