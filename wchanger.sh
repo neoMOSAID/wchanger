@@ -1533,7 +1533,6 @@ function f_info(){
         echo -en "\e[1A"
         echo
     fi
-    hide=0
     mode0="$(python "$wallhavenP" wh_get "ws${workspace}_mode_0" )_0"
     mode1="$(python "$wallhavenP" wh_get "ws${workspace}_mode_1" )_1"
     if (( $notexpired == 0 ))
@@ -1560,19 +1559,18 @@ function f_info(){
 }
 
 function all_info(){
-    (( $notexpired == 0 )) && [[ "$(pass_f)" == 0 ]] && {
-        exit
-        echo
-    }
     [[ -n "$1" ]] && {
         workspace=$1
         echo "============ ws $1 =============="
         f_info
         return
     }
+    (( $notexpired == 0 )) && [[ "$(pass_f)" == 0 ]] && {
+        exit
+        echo
+    }
     echo -en "\e[1A"
     echo
-    notexpired=1
     for (( i=0 ;i<=25; i++ )) ; do
         echo "============ ws $i =============="
         workspace=$i
