@@ -84,7 +84,7 @@ function getP(){
     id=$(python "$wallhavenP" wh_get "ws${workspace}_pause_id_$notexpired" )
     if [[ -z "$id" ]] ; then
         >&2 echo "pause wallpaper id undefined "
-        >&2 echo "first use? run : $(basename "$0") sp "
+        >&2 echo "first use? run : wchanger sp "
         exit
     fi
     pic=$(python "$wallhavenP" get "$id" )
@@ -154,7 +154,7 @@ function localDirs_f(){
             cat "$SCRIPTPATH/localdirs"
         else
             >&2 echo "no local dir is set"
-            >&2 echo "first use? run : $(basename "$0") addld"
+            >&2 echo "first use? run : wchanger addld"
             exit
     fi
 }
@@ -165,7 +165,7 @@ function addlocaldir(){
     title=$1
     path=$2
     [[ -z "$path" ]] && {
-        >&2 echo 'usage : wchanger addld "title" "path to local dir"'
+        >&2 echo 'usage : wchanger addld "title" "path/to/localdir"'
         exit
     }
     echo "$title:$path" >> "$SCRIPTPATH/localdirs"
@@ -251,7 +251,7 @@ function f_help(){
 function GETFID(){
     if [[ -z "$notexpired" ]] ; then
         >&2 echo "expire not yet defind"
-        >&2 echo "first use? run : $(basename "$0") u"
+        >&2 echo "first use? run : wchanger u"
         exit
     fi
     python "$wallhavenP" wh_get "ws${workspace}_FID_$notexpired"
@@ -533,14 +533,14 @@ function getOr(){
     if [[ -z "$pause" ]]
         then
             >&2 echo "pause value not set"
-            >&2 echo "first use ? run : $(basename "$0") p"
+            >&2 echo "first use ? run : wchanger p"
         else
             (( $pause == 1 )) && getP
     fi
     category="$(get_ordered_c)"
     [[ -z "$category" ]] && {
         >&2 echo "category not set"
-        >&2 echo "first use ? run : $(basename "$0") soc"
+        >&2 echo "first use ? run : wchanger soc"
         #exit
         category=d
     }
@@ -550,7 +550,7 @@ function getOr(){
         >&2 echo "number of wallpapers to fetch unset"
         >&2 echo "getting all available wallpapers"
         >&2 echo "set limit (last 10 for example/ 0 for all available) ?"
-        >&2 echo "  > run : $(basename "$0") sol"
+        >&2 echo "  > run : wchanger sol"
     fi
     if (( $cl == 1 )) ; then
         if [[ -z "$LIMIT" ]] || [[ $LIMIT == "0" ]]
@@ -665,14 +665,14 @@ function getFav(){
     if [[ -z "$pause" ]]
         then
             >&2 echo "pause value not set"
-            >&2 echo "first use ? run : $(basename "$0") p"
+            >&2 echo "first use ? run : wchanger p"
         else
             (( $pause == 1 )) && getP
     fi
     fid=$( GETFID )
     if [[ -z "$fid" ]] ; then
         >&2 echo "wallpaper fav list id not set"
-        >&2 echo "first use? run : $(basename "$0") fav"
+        >&2 echo "first use? run : wchanger fav"
         exit
     fi
     if (( $cl == 1 )) ; then
@@ -810,7 +810,7 @@ function getLD(){
     dir="$(python "$wallhavenP" wh_get "ws${workspace}_dir_$notexpired" )"
     if ! [[ -d "$dir" ]] || [[ -z "$dir" ]] ; then
         >&2 echo "wallpaper dir not defined or invalid"
-        >&2 echo "first use? run : $(basename "$0") dir "
+        >&2 echo "first use? run : wchanger dir "
         exit
     fi
     pause=$(
@@ -819,7 +819,7 @@ function getLD(){
     if [[ -z "$pause" ]]
         then
             >&2 echo "pause value not set"
-            >&2 echo "first use? run : $(basename "$0") p"
+            >&2 echo "first use? run : wchanger p"
         else
             (( $pause == 1 )) && getP
     fi
@@ -841,7 +841,7 @@ function getwW(){
     if [[ -z "$pause" ]]
         then
             >&2 echo "pause value not set"
-            >&2 echo "first use? run : $(basename "$0") p"
+            >&2 echo "first use? run : wchanger p"
         else
             (( $pause == 1 )) && [[ "$1" != d ]] && getP
     fi
@@ -854,7 +854,7 @@ function getwW(){
               squery=$(python "$wallhavenP" wh_get "$sname")
               [[ -z "$squery" ]] && {
                   >&2 echo "search query not set"
-                  >&2 echo "first use? run : $(basename "$0") swi "
+                  >&2 echo "first use? run : wchanger swi "
                   #exit
                   squery=37     #nature
               }
@@ -862,7 +862,7 @@ function getwW(){
               c=$(python "$wallhavenP" wh_get "$cname")
               [[ -z "$c" ]] && {
                   >&2 echo "search category not set"
-                  >&2 echo "first use? run : $(basename "$0") swc "
+                  >&2 echo "first use? run : wchanger swc "
                   #exit
                   c=d
               }
@@ -1008,7 +1008,7 @@ function printDir(){
     dir="$(python "$wallhavenP" wh_get "ws${workspace}_dir_$notexpired" )"
     if ! [[ -d "$dir" ]] || [[ -z "$dir" ]] ; then
         >&2 echo "wallpaper dir not defined or invalid"
-        >&2 echo "first use? run : $(basename "$0") dir"
+        >&2 echo "first use? run : wchanger dir"
         exit
     fi
     index=$(cat "$dir/.wcount")
@@ -1226,7 +1226,7 @@ function getDir(){
     if [[ -z "$pause" ]]
         then
             >&2 echo "pause value not set"
-            >&2 echo "first use? run : $(basename "$0") p"
+            >&2 echo "first use? run : wchanger p"
         else (( $pause == 1 )) && getP
     fi
     if [[ "$(wsgetMode)" == "getwW" ]]
@@ -1242,13 +1242,13 @@ function getDir(){
     dir=$(python "$wallhavenP" wh_get "$dname" )
     if [[ -z "$dir" ]] ; then
         >&2 echo "wallpaper directory not set"
-        >&2 echo "first use? run : $(basename "$0") sdd"
+        >&2 echo "first use? run : wchanger sdd"
         exit
     fi
     c=$(python "$wallhavenP" wh_get "$cname" )
     [[ -z "$c" ]] && {
         >&2 echo "category not set"
-        >&2 echo "first use? run : $(basename "$0") sdc"
+        >&2 echo "first use? run : wchanger sdc"
         exit
     }
     if (( $cl == 1 )) ; then
@@ -1310,14 +1310,14 @@ function getWT(){
     if [[ -z "$pause" ]]
         then
             >&2 echo "pause value not set"
-            >&2 echo "first use ? run : $(basename $0) p"
+            >&2 echo "first use ? run : wchanger p"
         else
             (( $pause == 1 )) && getP
     fi
     c=$(python "$wallhavenP" wh_get "$name3" )
     if [[ -z "$c" ]] ; then
         >&2 echo "category not set"
-        >&2 echo "first use ? run : $(basename "$0") stc"
+        >&2 echo "first use ? run : wchanger stc"
         exit
     fi
     if (( $cl == 1 )) ; then
@@ -1327,14 +1327,16 @@ function getWT(){
     fi
     N=$( python "$wallhavenP" getwstagswp  "$name" "$c" -1 50000 "$arg_2" )
     [[ -z "$N" ]] || (( $N == 0)) && {
-        >&2 echo "no matching wallpapers for tags (category $c):"
+        >&2 echo "category : $c"
+        >&2 echo "OPERATOR : $2"
+        >&2 echo "no matching wallpapers for tags :"
         >&2 echo "====================="
         getwstags
         >&2 echo "====================="
         >&2 echo "suggestions :"
-        >&2 echo " change category : $(basename "$0") stc"
-        >&2 echo "        add tag  : $(basename "$0") stt"
-        >&2 echo "     remove tag  : $(basename "$0") rtt"
+        >&2 echo " change category : wchanger stc"
+        >&2 echo "        add tag  : wchanger stt"
+        >&2 echo "     remove tag  : wchanger rtt"
         >&2 echo "change mode getAT (AND) to getOT (OR)"
         exit
     }
@@ -1440,7 +1442,7 @@ function getWT_info(){
 }
 
 function getAT_info(){
-    cm=$(wsgetMode $1 )
+    cm=$(wsgetMode $1 2>/dev/null )
     rel="AND"
     [[ "$cm" == "getOT" ]] && {
         rel="OR"
@@ -1450,10 +1452,10 @@ function getAT_info(){
 }
 
 function getOT_info(){
-    cm=$(wsgetMode $1 )
-    rel="AND"
-    [[ "$cm" == "getOT" ]] && {
-        rel="OR"
+    cm=$(wsgetMode $1 2>/dev/null)
+    rel="OR"
+    [[ "$cm" == "getAT" ]] && {
+        rel="AND"
     }
     modes+=" $cm "
     getWT_info "$1" "$2" "$rel"
@@ -1491,6 +1493,7 @@ function tmpmode_info(){
     return 0
 }
 
+# $2 : 1 = hide; 0 = not hide
 function getP_info(){
     local info=""
     pic=$(python "$wallhavenP" wh_get "ws${workspace}_pause_id_$1" )
@@ -1504,7 +1507,7 @@ function getP_info(){
             if (( $2 == 1 ))
                 then
                     info="***************"
-                    printf '%-13s: %s\n' "getP $1" "$info"
+                    printf '%-13s: %s\n' "$1-getP" "$info"
                     return
                 else
                     info="$pic"
@@ -1533,35 +1536,30 @@ function f_info(){
         echo -en "\e[1A"
         echo
     fi
-    mode0="$(python "$wallhavenP" wh_get "ws${workspace}_mode_0" )_0"
-    mode1="$(python "$wallhavenP" wh_get "ws${workspace}_mode_1" )_1"
-    if (( $notexpired == 0 ))
-        then
-            cmode=$mode0
-            amode=$mode1
-        else
-            cmode=$mode1
-            amode=$mode0
-    fi
-    while read -r l ; do
-        desc="${l#*:}"
-        m="${l%% *}"
-        f="${m}_info"
-        printf '\033[1;0m'
-        [[ "${m}_0" == "$cmode" ]] && printf '\033[1;32m'
-        [[ "${m}_0" == "$amode" ]] && printf '\033[1;34m'
-        "$f" 0 0
-        printf '\033[1;31m'
-        [[ "${m}_1" == "$cmode" ]] && printf '\033[1;32m'
-        [[ "${m}_1" == "$amode" ]] && printf '\033[1;33m'
-        "$f" 1 $hide
-    done <<< "$(modes_f)"
+    mode0="$(python "$wallhavenP" wh_get "ws${workspace}_mode_0" )"
+    mode1="$(python "$wallhavenP" wh_get "ws${workspace}_mode_1" )"
+    echo "--------------------- ws $workspace -----------------"
+    for m in $(modes_f|cut -d: -f1) ; do
+        if [[ "$m" == "$mode0" ]]
+            then printf '\033[1;32m'
+            else printf '\033[1;0m'
+        fi
+        ${m}_info 0 0
+    done
+    echo '-------------------------------------------'
+    for m in $(modes_f|cut -d: -f1) ; do
+        if [[ "$m" == "$mode1" ]]
+        then printf '\033[1;33m'
+        else printf '\033[1;31m'
+        fi
+        ${m}_info 1 $hide
+    done
+    echo
 }
 
 function all_info(){
     [[ -n "$1" ]] && {
         workspace=$1
-        echo "============ ws $1 =============="
         f_info
         return
     }
@@ -1569,10 +1567,10 @@ function all_info(){
         exit
         echo
     }
+    notexpired=1
     echo -en "\e[1A"
     echo
     for (( i=0 ;i<=25; i++ )) ; do
-        echo "============ ws $i =============="
         workspace=$i
         f_info
     done

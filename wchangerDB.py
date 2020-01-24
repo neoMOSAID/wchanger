@@ -1366,6 +1366,28 @@ def unTAGGed():
             con.close()
 
 
+def unDimed():
+    try:
+        con = connectDB()
+        c = con.cursor()
+        c.execute(
+            """select t1.path from downloaded t1
+            left join dimensions t2
+            on t1.name = t2.name
+            WHERE t2.name IS NULL and t1.path <> ""
+            """
+        )
+        rows = c.fetchall()
+        for row in rows:
+            print(row[0])
+            c.close()
+    except sqlite3.Error as error:
+        eprint("@%s: %s" % (inspect.stack()[0][3], error))
+    finally:
+        if con:
+            con.close()
+
+
 def getTagName(tag):
     try:
         con = connectDB()
@@ -1485,6 +1507,7 @@ def myfuncSwitch(arg):
         "wallpapertags": wallpaperTags,
         "untagged": unTAGGed,
         "adddim": addDim,
+        "undimed": unDimed,
     }
     func = switcher.get(cmd)
     func(*arg[2:])
