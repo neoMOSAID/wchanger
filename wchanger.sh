@@ -887,6 +887,7 @@ function getwW(){
             [[ -z "$pic" ]] && exit
             >&2 echo "@getwW: error file : $pic"
     fi
+    rm -f "$newFilePath" 2>/dev/null
     exit
 }
 
@@ -1086,6 +1087,7 @@ function downloadit(){
     if `file "$pic" | grep -i -w -E "bitmap|image" >/dev/null` ; then
         feh --bg-max  "$pic" "$secondPIC"
     fi
+    rm -f "$newFilePath" 2>/dev/null
     exit
 }
 
