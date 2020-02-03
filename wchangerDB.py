@@ -406,14 +406,13 @@ def addFav(fid, name):
     try:
         con = connectDB()
         c = con.cursor()
-        c.execute(
-            """
+        query = """
         INSERT INTO favs (name, fid)
         VALUES("{name}","{fid}")
         """.format(
-                name=name, fid=fid
-            )
+            name=name, fid=fid
         )
+        c.execute(query)
         con.commit()
         c.close()
     except sqlite3.Error as error:
@@ -423,17 +422,17 @@ def addFav(fid, name):
             con.close()
 
 
-def rmFav(name, fid):
+def rmFav(fid, name):
     try:
         con = connectDB()
         c = con.cursor()
-        c.execute(
-            """ DELETE FROM favs
-        WHERE name = "{name}"
-        AND fid = "{fid}" """.format(
-                name=name, fid=fid
-            )
+        query = """
+        DELETE FROM favs
+        WHERE name = "{n}" AND fid = "{i}"
+        """.format(
+            n=name, i=fid
         )
+        c.execute(query)
         con.commit()
         c.close()
     except sqlite3.Error as error:

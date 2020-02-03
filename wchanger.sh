@@ -395,6 +395,7 @@ function rmFav(){
     fi
     fid=$( getFIDById "$pic" )
     python "$wallhavenP" rmfav "$fid" "$pic"
+    echo "$pic removed from $fid"
 }
 
 function unexpire(){
