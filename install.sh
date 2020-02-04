@@ -12,6 +12,10 @@ if ! command -v dunst >/dev/null 2>&1 ; then
     echo dunst not installed. please install it
     exit
 fi
+if ! command -v zenity >/dev/null 2>&1 ; then
+    echo zenity not installed. please install it
+    exit
+fi
 
 pythonVersion=$(python -c 'import sys; print(sys.version_info.major)')
 if (( $pythonVersion < 3 )) ; then

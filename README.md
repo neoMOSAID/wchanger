@@ -6,8 +6,9 @@ Wallpaper changer for i3
 
 feh : image viewer and backgrounder<br>
 dunst: notification manager<br>
+zenity: display GTK+ dialogs<br>
 python 3 or above <br>
-jq :    Command-line JSON processor<br>
+jq : Command-line JSON processor<br>
 the usual :awk,sed,grep,curl,wget...
 
 # install
