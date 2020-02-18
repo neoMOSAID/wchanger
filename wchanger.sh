@@ -222,6 +222,7 @@ function f_help(){
     _printhelp "ow"                            "open CW in browser"
     _printhelp "p"                             "enable/disable wallpaper changing"
     _printhelp "r|rf"                          "remove from favs"
+    _printhelp "rl|rmlist"                     "remove favs list"
     _printhelp "rwt"                           "remove tag from CW"
     _printhelp "rtt"                           "remove tag from workspace tags list"
     _printhelp "sdd"                           "set wallhaven directory"
@@ -1048,6 +1049,14 @@ function listthem(){
         getDir|getwW) printWdir "$1"       ; exit;;
     esac
     dunstify -u normal -r "$msgId"  "wallpaper changer" "not a printable list"
+}
+
+function rmlist_f(){
+   fid=$1
+   name=$(python "$wallhavenP" getfavname "$fid" )
+   python "$wallhavenP" rmfavlist "$fid"
+   echo "$fid:$name removed"
+   exit
 }
 
 function wlist_f (){
@@ -1880,6 +1889,7 @@ case "$1" in
                     exit
                     ;;
            r|rf)    rmFav ;;
+      rl|rmlist)    rmlist_f "$2" ;;
             rwt)    rm_tag_to_w ;;
             rtt)    rwstags ;;
               s)    starTag "$2" "$3" ;;
