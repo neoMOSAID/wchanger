@@ -216,6 +216,7 @@ function f_help(){
     _printhelp "infoall"                       "info about all workspaces "
     _printhelp "keys"                          "i3 keyboard shortcuts"
     _printhelp "l|list [o,l,number]"           "a montage of the next 50 wallpapers"
+    _printhelp "lists [sdm]"                   "print favsLists names"
     _printhelp "lm"                            "list of available modes"
     _printhelp "o"                             "open CW in feh"
     _printhelp "ow"                            "open CW in browser"
@@ -240,7 +241,6 @@ function f_help(){
     _printhelp "url"                           "wallhaven search url"
     _printhelp "updatedb [scan]"               "update database"
     _printhelp "+,-,number"                    "next/prev wallpaper"
-    _printhelp "wlist [sdm]"                   "print favsLists names"
     _printhelp "x"                             "delete CW"
     _printhelp "zoom"                          "experimental not working"
     exit
@@ -1867,6 +1867,7 @@ case "$1" in
           iter)     iter_f "$2" ;;
           keys)     f_keys ;;
         l|list)     listthem "$2" "$3" ;;
+         lists)     wlist_f "$2" ;;
             lm)     list_modes_f ; exit ;;
              o)     feh "$( _pic_ )" & disown ; exit ;;
             ow)
@@ -1898,7 +1899,6 @@ case "$1" in
   up|unsetpause)    UnsetPauseW "$2" "$3" ;;
      u|unexpire)    unexpire ;;
             url)    print_url ;;
-          wlist)    wlist_f "$2" ;;
            zoom)
                     pic=$( _pic_ )
                     feh --bg-scale   "$pic" "$secondPIC"
