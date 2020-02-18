@@ -418,14 +418,9 @@ function pass_f(){
 }
 
 
-# $1 workspace
-# $2 f
+# $1 workspace (optional)
 function changeFavList(){
     arg_1=$1
-    if [[ -n "$2" ]]
-        then arg_2=$2
-        else arg_2=$1
-    fi
     number='^[0-9]*$'
     [[ -n "$arg_1" ]] && [[ "$arg_1" =~ $number ]] && workspace=$arg_1
     msg="select fav list for workspace $workspace"
@@ -433,11 +428,9 @@ function changeFavList(){
         |rofi -i -dmenu -p "category" -width -30 )
     if [[ "$c" != d ]] && [[ $notexpired == "0" ]] ; then
         #[[ "$c" != 'm' ]] &&
-        [[ "$arg_2" != "f" ]] \
-        && dunstify -u normal -r "$msgId" "wallpaper changer" "not permitted" \
-        && exit
         (( $( pass_f) == 0 )) && {
             echo
+            dunstify -u normal -r "$msgId" "wallpaper changer" "not permitted"
             exit
         }
         echo
