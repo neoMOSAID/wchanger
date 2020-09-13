@@ -131,7 +131,8 @@ function setPauseValue(){
 cmdline=$(ps -af | grep -v grep |grep wchanger.sh|grep updatedb )
 is_running=$( pgrep -fc  "$(realpath "$0" )" )
 if (( $is_running >= 2 )) && [[ "$cmdline" == "" ]] ; then
-    >&2 echo ${0##*/} is running $is_running proccess
+    is_running=$((is_running-1))
+    >&2 echo ${0##*/} is running $is_running proccess, exiting
     exit 0
 fi
 
@@ -315,8 +316,9 @@ function printFav(){
     index=$(python "$wallhavenP" wh_get "ws${workspace}_${fid}_i_$notexpired" )
     [[ -z "$index" ]] && index=1
     python "$wallhavenP" getfavs "$fid" | sed 's/^[0-9]*://g' > "$tmp_list"
-    m_W='1920'
-    m_H='1080'
+    display=( $(xrandr|head -1 |cut -d, -f2|sed 's/current//;s/x//') )
+    m_W=${display[0]}
+    m_H=${display[1]}
     case "$1" in
         o)
             feh -f "$tmp_list" 2> /dev/null
@@ -327,7 +329,7 @@ function printFav(){
             index2=$((index+50))
             ;;
         a)
-            m_W='1920'
+            m_W=${display[0]}
             index2=$((index+120))
             ;;
         *)
@@ -357,8 +359,8 @@ function addFav(){
         >&2 echo "no fid"
         exit
     fi
-    result=$( python "$wallhavenP" addfav "$fid" "$pic" )
-    if echo "$result" |grep -w Duplicate >/dev/null
+    result=$( python "$wallhavenP" addfav "$fid" "$pic" 2>&1 )
+    if echo "$result" |grep -w 'UNIQUE constraint failed' >/dev/null
         then echo $pic already in $fid
              msg="already added"
         else
@@ -472,6 +474,7 @@ function setPauseW(){
     fi
     if  (( $notexpired == 0 )) && (( $workspace > 0 && $workspace <= 7 ))
         then
+            >&2 echo "workspaces 1 to 7 : password protected"
             if [[ "$(pass_f)" == "0" ]] ; then
                 dunstify -u normal -r "$msgId" "wallpaper changer" "not permitted"
                 exit
@@ -491,6 +494,7 @@ function UnsetPauseW(){
     fi
     if  (( $notexpired == 0 )) && (( $workspace > 0 && $workspace <= 7 ))
     then
+         >&2 echo "workspaces 1 to 7 : password protected"
         if [[ "$(pass_f)" == "0" ]] ; then
             dunstify -u normal -r "$msgId" "wallpaper changer" "not permitted"
             exit
@@ -871,7 +875,7 @@ function getwW(){
                   exit
               fi
               rm -f "$newFilePath" 2>/dev/null
-              ( "$wallhavenScript" one "$squery" "$c" v ) &
+              ( "$wallhavenScript" one "$squery" "$c" v >/dev/null 2>&1 ) &
               while [[ ! -f "$newFilePath" ]] ; do sleep 0.100 ; done
               pic=$( cat "$newFilePath" )
     fi
@@ -1084,7 +1088,7 @@ function downloadit(){
     imgID="$1"
     imgID="${imgID##*/}"
     rm -f "$newFilePath" 2>/dev/null
-    ( "$wallhavenFetchOne" "$imgID" v ) &
+    ( "$wallhavenFetchOne" "$imgID" v >/dev/null 2>&1 ) &
     while [[ ! -f "$newFilePath" ]] ; do sleep 0.100 ; done
     pic=$( cat "$newFilePath" )
     if `file "$pic" | grep -i -w -E "bitmap|image" >/dev/null` ; then
@@ -1097,6 +1101,7 @@ function downloadit(){
 function set2PIC(){
     pic=$(_pic_)
     python "$wallhavenP" wh_set "secondpic"  "$pic"
+    echo "second monitor background set to $pic"
     exit
 }
 
@@ -1139,6 +1144,7 @@ function wsSetMode(){
     [[ -n "$1" ]] && workspace=$1
     if  (( $notexpired == 0 )) && (( $workspace > 0 && $workspace <=7 ))
     then
+        >&2 echo "workspaces 1 to 7 : password protected"
         if [[ "$(pass_f)" == "0" ]] ; then
             dunstify -u normal -r "$msgId" "wallpaper changer" "not permitted"
             echo
@@ -1167,6 +1173,7 @@ function wsgetMode(){
         mode=getwW
         >&2 echo "mode not defined yet"
         >&2 echo "using mode getwW as default"
+        >&2 echo "to set mode use : wchanger sm"
         #dunstify -u normal -r "$msgId" "wallpaper changer $workspace" "mode not defined yet"
         #exit
     fi
@@ -1592,7 +1599,15 @@ function print_url(){
 
 function cm_f(){
     cm=$(wsgetMode)
-    modes_f|grep "$cm"
+    if [[ "$cm" == getOr ]] ; then
+         category="$(get_ordered_c)"
+         orderedCountLIMIT="ws${workspace}_ordered_limit_${category}_${notexpired}"
+         LIMIT=$(python "$wallhavenP" wh_get "$orderedCountLIMIT" )
+         [[ -n $LIMIT ]] || LIMIT="all available"
+         modes_f|grep "$cm" | sed "s@all/number@$LIMIT@"
+      else
+         modes_f|grep "$cm"
+    fi
     rel="AND"
     [[ "$cm" == "getOT" ]] && {
         cm="getAT"
@@ -1601,7 +1616,7 @@ function cm_f(){
     data=$(${cm}_info "$notexpired" 0 "$rel" | cut -d: -f2)
     data=${data:1}
     data=${data//		 - /     - }
-    echo "list: $data"
+    echo "list  :$data"
     exit
 }
 
@@ -1841,7 +1856,7 @@ case "$1" in
             bt)     best_tags "$2" ;;
              c)     echo "$( _pic_ )" ; exit ;;
             cl)     cl=1 ;;
-            cm)     cm_f ; exit ;;
+            cm)     cm_f ;;
            cwt)     cwt_f ;;
            chl)     changeListName "$2" "$3" "$4" ;;
     d|download)     downloadit "$2" "$3" ;;

@@ -135,14 +135,16 @@ rm -f "$pageFile" 2>/dev/null
 wget -c -q -O "$pageFile" --header="$httpHeader" "$wAPI/$s1"
 
 lastpage=$(jq -r ".meta.last_page" "$pageFile" )
-if [[ -z "$arg_5" ]] ; then
-    FIRST=1
+FIRST=$arg_5
+if [[ -z "$arg_5" ]]
+    then FIRST=1
+    else FIRST=$arg_5
 fi
-FIRST=1
-for (( i=$FIRST ; i<=$lastpage ; i++ )) ; do
-    s1="search?page=$i&categories=101&purity=$FILTER&"
+kk=$FIRST
+while true ; do
+    s1="search?page=${kk}&categories=101&purity=$FILTER&"
     s1+="sorting=date_added&order=desc&q=$squery"
-    echo "page $i/$lastpage"
+    echo "page $kk/$lastpage"
     rm -f "$pageFile" 2>/dev/null
     wget -c -q -O "$pageFile" --header="$httpHeader" "$wAPI/$s1"
     N=$(jq -r ".data|length" "$pageFile" )
@@ -159,6 +161,7 @@ for (( i=$FIRST ; i<=$lastpage ; i++ )) ; do
         wait
     done
     echo
+    echo
+    kk=$((kk+1))
+    if (( $kk >= $lastpage )) ; then exit; fi
 done
-
-

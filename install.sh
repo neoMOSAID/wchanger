@@ -23,19 +23,24 @@ if (( $pythonVersion < 3 )) ; then
     exit
 fi
 
+echo ">>> this will override existing files continue ?(y/n)"
+IFS= read -rN 1 -p " : " c
+[[ $c == "n" ]] && exit
+echo
+
 DESTDIR="${HOME}/.config/wchanger"
 echo "making $DESTDIR"
 mkdir -p "$DESTDIR" 2>/dev/null
 echo "coping files..."
 chmod +x wchanger.sh
 chmod +x wchanger-engine.sh
-cp fetchOne.sh "$DESTDIR"
-cp getW.sh "$DESTDIR"
-cp wchangerDB.db "$DESTDIR"
-cp wchangerDB.py "$DESTDIR"
-cp wchanger-engine.sh "$DESTDIR"
-cp wchanger.sh "$DESTDIR"
-cp iter "$DESTDIR"
+cp -f fetchOne.sh "$DESTDIR" 2>/dev/null
+cp -f getW.sh "$DESTDIR" 2>/dev/null
+cp -f wchangerDB.db "$DESTDIR" 2>/dev/null
+cp -f wchangerDB.py "$DESTDIR" 2>/dev/null
+cp -f wchanger-engine.sh "$DESTDIR" 2>/dev/null
+cp -f wchanger.sh "$DESTDIR" 2>/dev/null
+cp -f iter "$DESTDIR" 2>/dev/null
 while true ; do
 echo "please enter a password to use for NSFW content"
 read -rs -p "   > " pass
@@ -53,6 +58,9 @@ python "$DESTDIR/wchangerDB.py" wh_set expired 0
 
 echo "downloading one wallpaper by id"
 bash "$DESTDIR/wchanger.sh" d r25kqj >/dev/null 2>&1
+echo "setting it to be second monitor background"
+bash "$DESTDIR/wchanger.sh" ssp
+python "$DESTDIR/wchangerDB.py" wh_set expired 0
 echo "downloading one random wallpaper"
 bash "$DESTDIR/wchanger.sh" dr >/dev/null 2>&1
 
@@ -101,5 +109,3 @@ to enable wchanger service:
 to start wchanger service:
     systemctl --user start wchanger
 "
-
-
